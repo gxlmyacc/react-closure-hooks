@@ -5,15 +5,21 @@ import {
 } from 'react';
 import useEvent from 'react-use-event-hook';
 
+type SetStateOptions = {
+  alwaysResolve?: boolean
+}
+
 type RefsStateProm<S> = {
   nextState: S,
   resolve: ((value: S | PromiseLike<S>) => void),
   reject: ((value: S | PromiseLike<S>) => void),
+  options: SetStateOptions
 };
 
 type RefsState = {
-  proms: RefsStateProm<any>[]
+  proms: RefsStateProm<any>[],
 };
+
 
 function refsInitialState(): RefsState {
   return {
@@ -33,11 +39,11 @@ function useStateWithPromise<S>(
   useEffect(() => {
     if (!$refs.proms.length) return;
     const proms = $refs.proms.splice(0, $refs.proms.length);
-    proms.forEach(prom => (prom.nextState === state ? prom.resolve(state) : prom.reject(state)));
+    proms.forEach(prom => ((prom.options.alwaysResolve || prom.nextState === state) ? prom.resolve(state) : prom.reject(state)));
   }, [$refs, state]);
 
-  const setStateWithPromise = useEvent((stateAction: SetStateAction<S>) => {
-    let prom  = {} as RefsStateProm<S>;
+  const setStateWithPromise = useEvent((stateAction: SetStateAction<S>, options: SetStateOptions = {}) => {
+    let prom  = { options } as RefsStateProm<S>;
     if (typeof stateAction === 'function') {
       setState(prevState => {
         prom.nextState = (stateAction as any)(prevState) as S;
