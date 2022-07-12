@@ -50,7 +50,7 @@ function useStateWithPromise<S>(
         return prom.nextState;
       });
     } else {
-      prom.nextState = stateAction as S;
+      setState(prom.nextState = stateAction as S);
     }
     return new Promise((resolve, reject) => {
       prom.resolve = resolve;
