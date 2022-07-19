@@ -1,6 +1,6 @@
 import {
   SetStateAction,
-  useEffect,
+  useLayoutEffect,
   useState
 } from 'react';
 import useEvent from 'react-use-event-hook';
@@ -17,12 +17,14 @@ type RefsStateProm<S> = {
 };
 
 type RefsState = {
+  seed: number,
   proms: RefsStateProm<any>[],
 };
 
 
 function refsInitialState(): RefsState {
   return {
+    seed: 0,
     proms: []
   };
 }
@@ -36,27 +38,31 @@ function useStateWithPromise<S>(
   const [state, setState] = useState(initialState);
   const [$refs] = useState(refsInitialState);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!$refs.proms.length) return;
     const proms = $refs.proms.splice(0, $refs.proms.length);
     proms.forEach(prom => ((prom.options.alwaysResolve || prom.nextState === state) ? prom.resolve(state) : prom.reject(state)));
-  }, [$refs, state]);
+  }, [$refs, state, $refs.seed]);
 
   const setStateWithPromise = useEvent((stateAction: SetStateAction<S>, options: SetStateOptions = {}) => {
     let prom  = { options } as RefsStateProm<S>;
-    if (typeof stateAction === 'function') {
-      setState(prevState => {
-        prom.nextState = (stateAction as any)(prevState) as S;
-        return prom.nextState;
-      });
-    } else {
-      setState(prom.nextState = stateAction as S);
-    }
-    return new Promise((resolve, reject) => {
+    const ret = new Promise((resolve, reject) => {
       prom.resolve = resolve;
       prom.reject = reject;
       $refs.proms.push(prom);
     }) as Promise<S>;
+
+    if (typeof stateAction === 'function') {
+      setState(prevState => {
+        prom.nextState = (stateAction as any)(prevState) as S;
+        if (prevState === prom.nextState) $refs.seed++;
+        return prom.nextState;
+      });
+    } else {
+      if (stateAction === state) $refs.seed++;
+      setState(prom.nextState = stateAction as S);
+    }
+    return ret;
   });
 
   return [state, setStateWithPromise];
