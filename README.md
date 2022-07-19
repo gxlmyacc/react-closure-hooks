@@ -18,7 +18,7 @@ yarn add react-closure-hooks
 // Test
 import React from 'react';
 import { Search } from 'antd';
-import { useState, useEvent } from 'react-closure-hooks';
+import { useState /* or useStateWithPromise */, useEvent } from 'react-closure-hooks';
 import API from '@/request';
 
 const Test = () => {
