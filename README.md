@@ -18,11 +18,50 @@ yarn add react-closure-hooks
 // Test
 import React from 'react';
 import { Search } from 'antd';
-import { useState /* or useStateWithPromise */, useEvent } from 'react-closure-hooks';
+import { useState, useEvent } from 'react-closure-hooks';
 import API from '@/request';
 
 const Test = () => {
   const [searchKey, setSearchKey] = useState('');
+  const [result, setResult] = useState('');
+
+  const doQuery = useEvent(async () => {
+    const result = await API.query({
+      searchKey
+    });
+    setResult(result);
+  });
+
+  const doSearch = useEvent(async (e) => {
+    await setSearchKey(e.target.value);
+    doQuery();
+  });
+
+  return (
+    <div>
+      <Search 
+        value={searchKey} 
+        onSearch={doSearch}
+      ><br />
+      <div>{result}</div>
+    </div>
+  );
+};
+
+export default Test;
+```
+
+or use `useStateWithPromise`
+
+```js
+// Test
+import React, { useState } from 'react';
+import { Search } from 'antd';
+import { useStateWithPromise, useEvent } from 'react-closure-hooks';
+import API from '@/request';
+
+const Test = () => {
+  const [searchKey, setSearchKey] = useStateWithPromise('');
   const [result, setResult] = useState('');
 
   const doQuery = useEvent(async () => {
