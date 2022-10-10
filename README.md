@@ -2,6 +2,9 @@
 
 reexport react hooks, and add `useEvent`. They are useful for solving the closure problem in react hooks.
 
+[![NPM version](https://img.shields.io/npm/v/react-closure-hooks.svg?style=flat)](https://npmjs.com/package/react-closure-hooks)
+[![NPM downloads](https://img.shields.io/npm/dm/react-closure-hooks.svg?style=flat)](https://npmjs.com/package/react-closure-hooks)
+
 ## install
 
 ```bash
