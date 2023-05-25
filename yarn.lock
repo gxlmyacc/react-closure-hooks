@@ -5644,10 +5644,10 @@ react-is@^16.8.1:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.11.0.tgz#b85dfecd48ad1ce469ff558a882ca8e8313928fa"
   integrity sha512-gbBVYR2p8mnriqAwWx9LbuUrShnAuSCNnuPGyc7GJrMVQtPDAh8iLpv7FRuMPFb56KkaVZIYSz1PrjI9q0QPCw==
 
-react-use-event-hook@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.npmjs.org/react-use-event-hook/-/react-use-event-hook-0.9.2.tgz#8d70f440a89d3216e573e6e6a194ca4fb0863cb3"
-  integrity sha512-nJQkI9yqtdHdcBNsuuHqWJQapVKMYZYG5FkqaoGf2EP+/2zWfFwq55L3qDfFCq5KtCzUHsmDbT7wZMCOol5oOQ==
+react-use-event-hook@0.9.3:
+  version "0.9.3"
+  resolved "https://registry.npmjs.org/react-use-event-hook/-/react-use-event-hook-0.9.3.tgz#08dc42eaa866dff57d2a0b1386b8d453adfc2ea4"
+  integrity sha512-8edWglTZ9Z5kfl31EuRjr4MDkTcEczHvrbo2EG1WVrX/a1B2sP3S9RCXjtSwrEnYRw29ldErlvDQNbTOxHNcmQ==
 
 read-pkg-up@^2.0.0:
   version "2.0.0"

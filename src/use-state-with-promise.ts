@@ -1,9 +1,9 @@
 import {
   SetStateAction,
-  useLayoutEffect,
   useState
 } from 'react';
 import useEvent from 'react-use-event-hook';
+import { useBrowserEffect } from './utils';
 
 type SetStateOptions = {
   alwaysResolve?: boolean
@@ -36,7 +36,7 @@ function useStateWithPromise<S>(
   const [state, setState] = useState(initialState);
   const [$refs] = useState(refsInitialState);
 
-  useLayoutEffect(() => {
+  useBrowserEffect(() => {
     if (!$refs.proms.length) return;
     const proms = $refs.proms.splice(0, $refs.proms.length);
     proms.forEach(prom => ((prom.options.alwaysResolve || prom.nextState === state) ? prom.resolve(state) : prom.reject(state)));
