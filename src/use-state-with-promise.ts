@@ -2,8 +2,8 @@ import {
   SetStateAction,
   useState
 } from 'react';
-import useEvent from 'react-use-event-hook';
-import { useBrowserEffect } from './utils';
+import useEvent from './use-event';
+import { useInsertionEffect } from './utils';
 
 type SetStateOptions = {
   alwaysResolve?: boolean
@@ -27,6 +27,10 @@ function refsInitialState(): RefsState {
   };
 }
 
+/**
+ * Similar to useState, with a few subtle differences:
+ * - The returned function is a promise that will resolve when FC is recalled and the state is same with the update value;
+ */
 function useStateWithPromise<S>(
   initialState: S | (() => S)
 ): [
@@ -36,10 +40,22 @@ function useStateWithPromise<S>(
   const [state, setState] = useState(initialState);
   const [$refs] = useState(refsInitialState);
 
-  useBrowserEffect(() => {
+  useInsertionEffect(() => {
     if (!$refs.proms.length) return;
     const proms = $refs.proms.splice(0, $refs.proms.length);
-    proms.forEach(prom => ((prom.options.alwaysResolve || prom.nextState === state) ? prom.resolve(state) : prom.reject(state)));
+    proms.forEach(prom => {
+      if ((prom.options.alwaysResolve || prom.nextState === state)) {
+        prom.resolve(state);
+      } else if (process.env.NODE_ENV !== 'production') {
+        console.error(
+          '[useStateWithPromise warning]: the state has been updated, but its value is different from the updated value',
+          {
+            state,
+            updateState: prom.nextState,
+          }
+        );
+      }
+    });
   }, [$refs, state]);
 
   const setStateWithPromise = useEvent((stateAction: SetStateAction<S>, options: SetStateOptions = {}) => {

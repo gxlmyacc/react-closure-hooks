@@ -9,8 +9,10 @@ import {
   useMemo,
   useDebugValue
 } from 'react';
-import useEvent from 'react-use-event-hook';
+import useEvent from './use-event';
 import useStateWithPromise from './use-state-with-promise';
+import useMemoWithArgument from './use-memo-with-argument';
+import useTextNode from './use-text-node';
 
 export {
   useContext,
@@ -25,5 +27,7 @@ export {
   useDebugValue,
   useEvent,
   useStateWithPromise,
+  useMemoWithArgument,
+  useTextNode,
 };
 

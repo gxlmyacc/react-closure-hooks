@@ -1,6 +1,6 @@
 {
   "name": "react-closure-hooks",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "some hooks for resolve closure problem in react hooks",
   "keywords": [
     "react",
@@ -37,8 +37,7 @@
   "dependencies": {
     "@types/react": "^16.8.0",
     "core-js": "^2",
-    "tslib": "^2.0.3",
-    "react-use-event-hook": "0.9.3"
+    "tslib": "^2.0.3"
   },
   "peerDependencies": {
     "react": ">=16.8.0"
