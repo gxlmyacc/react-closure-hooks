@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { useInsertionEffect } from './utils';
 
 type AnyFunction = (...args: any[]) => any;
 
@@ -13,10 +12,7 @@ type AnyFunction = (...args: any[]) => any;
 export function useEvent<TCallback extends AnyFunction>(callback: TCallback): TCallback {
   // Keep track of the latest callback:
   const latestRef = React.useRef<TCallback>(callback);
-
-  useInsertionEffect(() => {
-    latestRef.current = callback;
-  }, [callback]);
+  latestRef.current = callback;
 
   // Create a stable callback that always calls the latest callback:
   // using useRef instead of useCallback avoids creating and empty array on every render

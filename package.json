@@ -1,6 +1,6 @@
 {
   "name": "react-closure-hooks",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "description": "some hooks for resolve closure problem in react hooks",
   "keywords": [
     "react",

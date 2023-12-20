@@ -1,9 +1,9 @@
 import {
   SetStateAction,
+  useMemo,
   useState
 } from 'react';
 import useEvent from './use-event';
-import { useInsertionEffect } from './utils';
 
 type SetStateOptions = {
   alwaysResolve?: boolean
@@ -40,7 +40,7 @@ function useStateWithPromise<S>(
   const [state, setState] = useState(initialState);
   const [$refs] = useState(refsInitialState);
 
-  useInsertionEffect(() => {
+  useMemo(() => {
     if (!$refs.proms.length) return;
     const proms = $refs.proms.splice(0, $refs.proms.length);
     proms.forEach(prom => {
